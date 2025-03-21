@@ -17,3 +17,13 @@ fi
 
 #---- Clone Git repository ----#
 git clone https://github.com/Tencent/MimicMotion.git
+
+echo "***** Test1 *****"
+pwd
+
+cd MimicMotion/
+
+echo "***** Test2 *****"
+pwd
+
+mkdir models
