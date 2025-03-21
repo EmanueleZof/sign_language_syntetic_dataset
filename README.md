@@ -1,1 +1,2 @@
-# sign_language_syntetic_dataset
+# Sign language syntetic dataset
+Progetto d'esame per il corso di Machine Learning
