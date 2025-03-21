@@ -8,7 +8,10 @@ echo "***** Installing MimicMotion *****"
 #---- libraries ----#
 pip install decord onnxruntime omegaconf
 
-if [ $1="av13" ]
+echo "***** test *****"
+echo "$1"
+
+if [ $1=="av13" ]
 then
     pip install av==13.1.0
 else
