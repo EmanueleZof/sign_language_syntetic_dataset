@@ -3,7 +3,7 @@
 # https://github.com/Tencent/MimicMotion
 ################################################################################
 
-echo "Installing MimicMotion"
+echo "Installing dependencies"
 
 #---- Dependencies ----#
 av12()
@@ -27,4 +27,6 @@ dependencies()
     fi
 }
 
-dependencies
+#dependencies
+
+echo "$0" "$1"
