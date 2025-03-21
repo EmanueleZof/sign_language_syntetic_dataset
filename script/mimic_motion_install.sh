@@ -3,13 +3,7 @@
 # https://github.com/Tencent/MimicMotion
 ################################################################################
 
-if (( $# < 1 ))
-then
-	echo "USAGE: $0 <argument1> <argument2> ..."
-	exit
-fi
-
-echo "Test1"
+echo "Installing MimicMotion"
 
 #---- Dependencies ----#
 av12()
