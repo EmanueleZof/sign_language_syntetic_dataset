@@ -19,19 +19,12 @@ av13()
 dependencies()
 {
     pip install decord onnxruntime omegaconf
+
+    if [[ "$@" == "av13" ]]; then
+        pip install av==13.1.0
+    else
+        pip install av==12.0.0
+    fi
 }
 
-for ARG in "$@"
-do
-	shift
-	case "${ARG}" in
-        "av13") 
-            dependencies
-            av13
-            ;;
-		*) 
-            dependencies
-            av12
-            ;;
-	esac
-done
+dependencies
