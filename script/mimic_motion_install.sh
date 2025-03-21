@@ -20,7 +20,7 @@ dependencies()
 {
     pip install decord onnxruntime omegaconf
 
-    if [[ "$@" == "av13" ]]; then
+    if [[ "$1" == "av13" ]]; then
         pip install av==13.1.0
     else
         pip install av==12.0.0
