@@ -3,10 +3,41 @@
 # https://github.com/Tencent/MimicMotion
 ################################################################################
 
+if (( $# < 1 ))
+then
+	echo "USAGE: $0 <argument1> <argument2> ..."
+	exit
+fi
+
 echo "Test1"
 
-#---- Install dependencies ----#
-_AV_12="12.0.0"
-_AV_13="13.1.0"
+#---- Dependencies ----#
+av12()
+{
+    pip install av==12.0.0
+}
 
-pip install decord onnxruntime omegaconf "av==$_AV_12"
+av13()
+{
+    pip install av==13.1.0
+}
+
+dependencies()
+{
+    pip install decord onnxruntime omegaconf
+}
+
+for ARG in "$@"
+do
+	shift
+	case "${ARG}" in
+        "av13") 
+            dependencies
+            av13
+            ;;
+		*) 
+            dependencies
+            av12
+            ;;
+	esac
+done
