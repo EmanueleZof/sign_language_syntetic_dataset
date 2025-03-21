@@ -24,3 +24,9 @@ mkdir models
 mkdir -p models/DWPose
 
 #---- Load models ----#
+wget https://huggingface.co/yzd-v/DWPose/resolve/main/yolox_l.onnx?download=true -O models/DWPose/yolox_l.onnx
+
+wget https://huggingface.co/yzd-v/DWPose/resolve/main/dw-ll_ucoco_384.onnx?download=true -O models/DWPose/dw-ll_ucoco_384.onnx
+
+wget https://huggingface.co/tencent/MimicMotion/resolve/main/MimicMotion_1-1.pth -P models/
+
