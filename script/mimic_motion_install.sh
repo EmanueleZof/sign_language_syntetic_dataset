@@ -11,7 +11,7 @@ pip install decord onnxruntime omegaconf
 echo "***** test *****"
 echo "$1"
 
-if [[$1 && "$1"="av13"]]
+if [["$1"="av13"]]
 then
     pip install av==13.1.0
 else
