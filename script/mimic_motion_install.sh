@@ -1,15 +1,12 @@
 #!/bin/bash
-# Install MimicMotion
+# Install MimicMotion on Google Colab
 # https://github.com/Tencent/MimicMotion
 ################################################################################
 
 echo "***** Installing MimicMotion *****"
 
-#---- libraries ----#
+#---- Install libraries ----#
 pip install decord onnxruntime omegaconf
-
-echo "***** test *****"
-[[ $1 == av13 ]]; echo "$?"
 
 if [[ $1 == av13 ]]
 then
@@ -17,3 +14,6 @@ then
 else
     pip install av==12.0.0
 fi
+
+#---- Clone Git repository ----#
+git clone https://github.com/Tencent/MimicMotion.git
