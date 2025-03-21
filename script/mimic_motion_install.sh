@@ -9,4 +9,4 @@ echo "Test1"
 _AV_12="12.0.0"
 _AV_13="13.1.0"
 
-!pip install decord onnxruntime omegaconf "av==$_AV_12"
+pip install decord onnxruntime omegaconf "av==$_AV_12"
