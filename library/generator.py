@@ -1,7 +1,13 @@
+import math
 import torch.jit
 
 from pathlib import Path
 from omegaconf import OmegaConf
+
+from torchvision.datasets.folder import pil_loader
+from torchvision.transforms.functional import pil_to_tensor, resize, center_crop
+from torchvision.transforms.functional import to_pil_image
+
 from mimicmotion.pipelines.pipeline_mimicmotion import MimicMotionPipeline
 from mimicmotion.utils.loader import create_pipeline
 from mimicmotion.utils.utils import save_to_mp4
@@ -25,7 +31,7 @@ class GENERATOR:
     def _output_dir(self):
         Path(self.output_dir).mkdir(parents=True, exist_ok=True)
 
-    def _preprocess(video_path, image_path, resolution=576, sample_stride=2):
+    def _preprocess(self, video_path, image_path, resolution=576, sample_stride=2):
         """preprocess ref image pose and video pose
 
         Args:
@@ -76,6 +82,6 @@ class GENERATOR:
             pose_pixels, image_pixels = self._preprocess(
                 task.ref_video_path, 
                 task.ref_image_path, 
-                resolution=task.resolution, 
-                sample_stride=task.sample_stride
+                task.resolution, 
+                task.sample_stride
                 )

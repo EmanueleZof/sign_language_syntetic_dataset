@@ -20,7 +20,7 @@ cd sign_language_syntetic_dataset/
 git clone https://github.com/Tencent/MimicMotion.git
 
 #---- Create folders ----#
-cd MimicMotion/
+#cd MimicMotion/
 mkdir models
 mkdir -p models/DWPose
 
