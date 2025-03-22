@@ -1,3 +1,4 @@
+import gc
 import math
 import torch.jit
 
@@ -30,6 +31,9 @@ class GENERATOR:
 
     def _output_dir(self):
         Path(self.output_dir).mkdir(parents=True, exist_ok=True)
+
+    def _flush_ram(self):
+        gc.collect()
 
     def _preprocess(self, video_path, image_path, resolution=576, sample_stride=2):
         """preprocess ref image pose and video pose
