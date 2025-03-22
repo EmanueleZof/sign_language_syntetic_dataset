@@ -5,7 +5,7 @@ from omegaconf import OmegaConf
 
 class GENERATOR:
     def __init__(self,
-                 inference_config = "configs/test.yaml",
+                 inference_config = "configs/default.yaml",
                  output_dir = "outputs/",
                  use_float16 = True
                  ):
