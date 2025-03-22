@@ -16,7 +16,7 @@ from MimicMotion.utils.loader import create_pipeline
 from MimicMotion.utils.utils import save_to_mp4
 from MimicMotion.dwpose.preprocess import get_video_pose, get_image_pose
 
-class GENERATOR:
+class Generator:
     def __init__(self,
                  inference_config = "configs/default.yaml",
                  output_dir = "outputs/",
