@@ -16,7 +16,8 @@ else
 fi
 
 #---- Clone Git repository ----#
-git clone https://github.com/Tencent/MimicMotion.git sign_language_syntetic_dataset
+cd sign_language_syntetic_dataset/
+git clone https://github.com/Tencent/MimicMotion.git
 
 #---- Create folders ----#
 cd MimicMotion/
