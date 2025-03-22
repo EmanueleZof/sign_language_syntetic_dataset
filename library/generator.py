@@ -5,6 +5,7 @@ import torch.jit
 import numpy as np
 
 from pathlib import Path
+from datetime import datetime
 from omegaconf import OmegaConf
 
 from torchvision.datasets.folder import pil_loader
