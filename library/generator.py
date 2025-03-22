@@ -11,10 +11,10 @@ from torchvision.datasets.folder import pil_loader
 from torchvision.transforms.functional import pil_to_tensor, resize, center_crop
 from torchvision.transforms.functional import to_pil_image
 
-from mimicmotion.pipelines.pipeline_mimicmotion import MimicMotionPipeline
-from mimicmotion.utils.loader import create_pipeline
-from mimicmotion.utils.utils import save_to_mp4
-from mimicmotion.dwpose.preprocess import get_video_pose, get_image_pose
+from MimicMotion.mimicmotion.pipelines.pipeline_mimicmotion import MimicMotionPipeline
+from MimicMotion.utils.loader import create_pipeline
+from MimicMotion.utils.utils import save_to_mp4
+from MimicMotion.dwpose.preprocess import get_video_pose, get_image_pose
 
 class GENERATOR:
     def __init__(self,
