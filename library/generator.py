@@ -69,6 +69,35 @@ class GENERATOR:
 
         return torch.from_numpy(pose_pixels.copy()) / 127.5 - 1, torch.from_numpy(image_pixels) / 127.5 - 1
 
+    def _run_pipeline(self, pipeline: MimicMotionPipeline, image_pixels, pose_pixels, device, task_config):
+        image_pixels = [to_pil_image(img.to(torch.uint8)) for img in (image_pixels + 1.0) * 127.5]
+        generator = torch.Generator(device=device)
+        generator.manual_seed(task_config.seed)
+        frames = pipeline(
+            image_pixels, 
+            image_pose=pose_pixels, 
+            num_frames=pose_pixels.size(0),
+            tile_size=task_config.num_frames, 
+            tile_overlap=task_config.frames_overlap,
+            height=pose_pixels.shape[-2], 
+            width=pose_pixels.shape[-1], 
+            fps=7,
+            noise_aug_strength=task_config.noise_aug_strength, 
+            num_inference_steps=task_config.num_inference_steps,
+            generator=generator, min_guidance_scale=task_config.guidance_scale, 
+            max_guidance_scale=task_config.guidance_scale, 
+            decode_chunk_size=8, 
+            output_type="pt", 
+            device=device
+        ).frames.cpu()
+        video_frames = (frames * 255.0).to(torch.uint8)
+
+        for vid_idx in range(video_frames.shape[0]):
+            # deprecated first frame because of ref image
+            _video_frames = video_frames[vid_idx, 1:]
+
+        return _video_frames
+
     @torch.no_grad()
     def _main(self):        
         self._output_dir()
@@ -80,9 +109,19 @@ class GENERATOR:
         pipeline = create_pipeline(infer_config, self.device)
 
         for task in infer_config.base:
+            # Pre-process data
             pose_pixels, image_pixels = self._preprocess(
                 task.ref_video_path, 
                 task.ref_image_path, 
                 task.resolution, 
                 task.sample_stride
+                )
+            
+            # Run MimicMotion pipeline
+            _video_frames = self._run_pipeline(
+                pipeline, 
+                image_pixels, 
+                pose_pixels, 
+                self.device, 
+                task
                 )
