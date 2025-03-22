@@ -69,6 +69,7 @@ class GENERATOR:
 
         return torch.from_numpy(pose_pixels.copy()) / 127.5 - 1, torch.from_numpy(image_pixels) / 127.5 - 1
 
+    @torch.no_grad()
     def _main(self):        
         self._output_dir()
 
