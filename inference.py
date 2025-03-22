@@ -16,7 +16,7 @@ from torchvision.transforms.functional import to_pil_image
 from MimicMotion.mimicmotion.utils.geglu_patch import patch_geglu_inplace
 patch_geglu_inplace()
 
-from constants import ASPECT_RATIO
+from MimicMotion.constants import ASPECT_RATIO
 
 from MimicMotion.mimicmotion.pipelines.pipeline_mimicmotion import MimicMotionPipeline
 from MimicMotion.mimicmotion.utils.loader import create_pipeline
