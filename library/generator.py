@@ -12,9 +12,9 @@ from torchvision.transforms.functional import pil_to_tensor, resize, center_crop
 from torchvision.transforms.functional import to_pil_image
 
 from MimicMotion.mimicmotion.pipelines.pipeline_mimicmotion import MimicMotionPipeline
-from MimicMotion.utils.loader import create_pipeline
-from MimicMotion.utils.utils import save_to_mp4
-from MimicMotion.dwpose.preprocess import get_video_pose, get_image_pose
+from MimicMotion.mimicmotion.utils.loader import create_pipeline
+from MimicMotion.mimicmotion.utils.utils import save_to_mp4
+from MimicMotion.mimicmotion.dwpose.preprocess import get_video_pose, get_image_pose
 
 class Generator:
     def __init__(self,
