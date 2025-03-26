@@ -77,7 +77,7 @@ class Image:
 
     def show_random_image(self, show_bbox = False):
       if (self.loader == "coco_wholebody") :
-        bunding_box = []
+        bunding_box = [0,0,0,0]
         
         tot_person_annotations = len(self.dataset["annotations"])
         random_person_annotation = self.dataset["annotations"].iloc[np.random.randint(0,tot_person_annotations)]
