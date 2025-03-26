@@ -9,5 +9,6 @@ class Image:
 
     def extract_images(self):
         if (self.loader == "coco_wholebody") :
+            self._coco_wholebody_loader()
         else :
             print("Nessun loader specificato")
