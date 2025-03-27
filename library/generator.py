@@ -26,7 +26,7 @@ class Generator:
                  use_float16 = True
                  ):
         self.output_dir = output_dir
-        self.temp = temp
+        self.temp_dir = temp_dir
         self.use_float16 = use_float16
 
         self.ASPECT_RATIO = 9 / 16
