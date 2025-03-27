@@ -18,7 +18,7 @@ class Image:
 
         self.main()
     
-    def _create_json(self, data, label = "default"):
+    def _create_json(self, data, label="default"):
       base = Path(".")
       jsonpath = base / (label + ".json")
       jsonpath.write_text(json.dumps(data))
@@ -75,7 +75,7 @@ class Image:
     def get_dataset(self):
       return self.dataset
 
-    def show_random_image(self, show_bbox = False):
+    def show_random_image(self, show_bbox=False):
       if (self.loader == "coco_wholebody") :
         bunding_box = [0,0,0,0]
         
