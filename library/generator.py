@@ -32,11 +32,9 @@ class Generator:
         self.ASPECT_RATIO = 9 / 16
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-        self.example_video_path = "MimicMotion/assets/example_data/videos/pose1.mp4"
-        self.example_image_path = "MimicMotion/assets/example_data/images/demo1.jpg"
         self.default_video = {
-                "ref_video_path": self.example_video_path,
-                "ref_image_path": self.example_image_path,
+                "ref_video_path": "MimicMotion/assets/example_data/videos/pose1.mp4",
+                "ref_image_path": "MimicMotion/assets/example_data/images/demo1.jpg",
                 "num_frames": 72,
                 "resolution": 576,
                 "frames_overlap": 6,
@@ -107,20 +105,20 @@ class Generator:
         generator = torch.Generator(device=device)
         generator.manual_seed(task_config.seed)
         frames = pipeline(
-            image_pixels, 
-            image_pose=pose_pixels, 
+            image_pixels,
+            image_pose=pose_pixels,
             num_frames=pose_pixels.size(0),
-            tile_size=task_config.num_frames, 
+            tile_size=task_config.num_frames,
             tile_overlap=task_config.frames_overlap,
-            height=pose_pixels.shape[-2], 
-            width=pose_pixels.shape[-1], 
+            height=pose_pixels.shape[-2],
+            width=pose_pixels.shape[-1],
             fps=7,
-            noise_aug_strength=task_config.noise_aug_strength, 
+            noise_aug_strength=task_config.noise_aug_strength,
             num_inference_steps=task_config.num_inference_steps,
-            generator=generator, min_guidance_scale=task_config.guidance_scale, 
-            max_guidance_scale=task_config.guidance_scale, 
-            decode_chunk_size=8, 
-            output_type="pt", 
+            generator=generator, min_guidance_scale=task_config.guidance_scale,
+            max_guidance_scale=task_config.guidance_scale,
+            decode_chunk_size=8,
+            output_type="pt",
             device=device
         ).frames.cpu()
         video_frames = (frames * 255.0).to(torch.uint8)
@@ -132,12 +130,12 @@ class Generator:
         return _video_frames
 
     def build_config(self,
-                     num_video = 1, 
-                     model = 72, 
-                     frames_overlap = 6, 
-                     video_path = "", 
+                     num_video = 1,
+                     model = 72,
+                     frames_overlap = 6,
+                     video_path = "",
                      images_path = ""):
-        
+
         main_config = self.default_config
 
         if (video_path != "" and images_path != ""):
@@ -145,25 +143,33 @@ class Generator:
           images_list = self._load_images(images_path)
 
           for i in range(num_video):
-            video_config = self.default_video
-            video_config["ref_video_path"] = "test_video"
-            video_config["ref_image_path"] = images_list[np.random.randint(0,len(images_list))]
-            video_config["num_frames"] = model
-            video_config["frames_overlap"] = frames_overlap
-            videos.append(video_config)
-
+            videos.append({
+                "ref_video_path": "test_video",
+                "ref_image_path": images_list[np.random.randint(0,len(images_list))],
+                "num_frames": model,
+                "resolution": self.default_video["resolution"],
+                "frames_overlap": frames_overlap,
+                "num_inference_steps": self.default_video["num_inference_steps"],
+                "noise_aug_strength": self.default_video["noise_aug_strength"],
+                "guidance_scale": self.default_video["guidance_scale"],
+                "sample_stride": self.default_video["sample_stride"],
+                "fps": self.default_video["fps"],
+                "seed": self.default_video["seed"],
+            })
           main_config["list"] = videos
 
-        with open('temp/config.yaml', "w") as yaml_file:
+        Path("temp/").mkdir(parents=True, exist_ok=True)
+
+        with open("temp/config.yaml", "w") as yaml_file:
           yaml.dump(main_config, yaml_file, default_flow_style=False)
 
     @torch.no_grad()
-    def generate(self):        
+    def generate(self):
         self._output_dir()
 
         if self.use_float16 :
             torch.set_default_dtype(torch.float16)
-        
+
         infer_config = OmegaConf.load(self.inference_config)
         pipeline = create_pipeline(infer_config, self.device)
 
@@ -175,7 +181,7 @@ class Generator:
                 task.resolution, 
                 task.sample_stride
                 )
-            
+
             # Run MimicMotion pipeline
             _video_frames = self._run_pipeline(
                 pipeline, 
