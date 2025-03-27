@@ -21,12 +21,12 @@ from MimicMotion.mimicmotion.dwpose.preprocess import get_video_pose, get_image_
 
 class Generator:
     def __init__(self,
-                 inference_config = "configs/default.yaml",
                  output_dir = "outputs/",
+                 temp_dir = "temp/"
                  use_float16 = True
                  ):
-        self.inference_config = inference_config
         self.output_dir = output_dir
+        self.temp = temp
         self.use_float16 = use_float16
 
         self.ASPECT_RATIO = 9 / 16
@@ -164,13 +164,13 @@ class Generator:
           yaml.dump(main_config, yaml_file, default_flow_style=False)
 
     @torch.no_grad()
-    def generate(self):
+    def generate(self, inference_config="configs/default.yaml"):
         self._output_dir()
 
         if self.use_float16 :
             torch.set_default_dtype(torch.float16)
 
-        infer_config = OmegaConf.load(self.inference_config)
+        infer_config = OmegaConf.load(inference_config)
         pipeline = create_pipeline(infer_config, self.device)
 
         for task in infer_config.list:
