@@ -6,9 +6,8 @@ import yaml
 import torch.jit
 import numpy as np
 
-import library.utils as utils
+import library.utils as Utils
 
-from pathlib import Path
 from datetime import datetime
 from omegaconf import OmegaConf
 
@@ -52,12 +51,6 @@ class Generator:
             "ckpt_path": "models/MimicMotion_1-1.pth",
             "list" : [self.default_video]
         }
-
-    def _output_dir(self):
-        Path(self.output_dir).mkdir(parents=True, exist_ok=True)
-
-    def _flush_ram(self):
-        gc.collect()
 
     def _load_images(self, images_json):
         images_file = open(images_json)
@@ -160,15 +153,14 @@ class Generator:
             })
           main_config["list"] = videos
 
-        #Path(self.temp_dir).mkdir(parents=True, exist_ok=True)
-        utils.create_dir(self.temp_dir)
+        Utils.create_dir(self.temp_dir)
 
         with open("temp/config.yaml", "w") as yaml_file:
           yaml.dump(main_config, yaml_file, default_flow_style=False)
 
     @torch.no_grad()
     def generate(self, inference_config="configs/default.yaml"):
-        self._output_dir()
+        Utils.create_dir(self.output_dir)
 
         if self.use_float16 :
             torch.set_default_dtype(torch.float16)
