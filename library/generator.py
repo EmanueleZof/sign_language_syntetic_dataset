@@ -119,7 +119,7 @@ class Generator:
         infer_config = OmegaConf.load(self.inference_config)
         pipeline = create_pipeline(infer_config, self.device)
 
-        for task in infer_config.base:
+        for task in infer_config.list:
             # Pre-process data
             pose_pixels, image_pixels = self._preprocess(
                 task.ref_video_path, 

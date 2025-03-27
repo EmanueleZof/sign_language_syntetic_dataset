@@ -5,7 +5,7 @@ base_model_path: stabilityai/stable-video-diffusion-img2vid-xt-1-1
 #ckpt_path: MimicMotion/models/MimicMotion_1-1.pth
 ckpt_path: models/MimicMotion_1-1.pth
 
-base:
+list:
   - ref_video_path: MimicMotion/assets/example_data/videos/pose1.mp4
     ref_image_path: MimicMotion/assets/example_data/images/demo1.jpg
     num_frames: 16
