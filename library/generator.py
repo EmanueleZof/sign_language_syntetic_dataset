@@ -158,7 +158,7 @@ class Generator:
             })
           main_config["list"] = videos
 
-        Path("temp/").mkdir(parents=True, exist_ok=True)
+        Path(self.temp_dir).mkdir(parents=True, exist_ok=True)
 
         with open("temp/config.yaml", "w") as yaml_file:
           yaml.dump(main_config, yaml_file, default_flow_style=False)
