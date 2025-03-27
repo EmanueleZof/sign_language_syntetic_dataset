@@ -141,9 +141,11 @@ class Generator:
 
             for i in range(num_video):
                 random_image = images_list[np.random.randint(0,len(images_list))]
+                image_path = Utils.download_file(random_image, self.temp_dir)
+
                 videos.append({
                     "ref_video_path": video_path,
-                    "ref_image_path": random_image,
+                    "ref_image_path": image_path,
                     "num_frames": model,
                     "resolution": self.default_video["resolution"],
                     "frames_overlap": frames_overlap,
@@ -154,7 +156,6 @@ class Generator:
                     "fps": self.default_video["fps"],
                     "seed": self.default_video["seed"],
                 })
-                Utils.download_file(random_image, self.temp_dir)
             main_config["list"] = videos
 
         with open(f"{self.temp_dir}config.yaml", "w") as yaml_file:

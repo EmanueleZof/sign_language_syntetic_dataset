@@ -10,7 +10,10 @@ def flush_ram():
 
 def download_file(url, path):
     file_name = url.split("/")[-1]
+    save_as = f"{path}{file_name}"
     img_data = requests.get(url).content
 
-    with open(f"{path}{file_name}", "wb") as handler:
+    with open(save_as, "wb") as handler:
         handler.write(img_data)
+
+    return save_as
