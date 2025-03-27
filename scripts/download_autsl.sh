@@ -125,9 +125,9 @@ test()
     # Videos
     echo "***** Downloading videos (3 parts) *****"
     echo
-    wget "$_TEMP_FOLDER/$_TEST_VIDEO_URL.001"
-    wget "$_TEMP_FOLDER/$_TEST_VIDEO_URL.002"
-    wget "$_TEMP_FOLDER/$_TEST_VIDEO_URL.003"
+    wget -P $_TEMP_FOLDER "$_TEST_VIDEO_URL.001"
+    wget -P $_TEMP_FOLDER "$_TEST_VIDEO_URL.002"
+    wget -P $_TEMP_FOLDER "$_TEST_VIDEO_URL.003"
 
     #echo "***** Merging *****"
     #echo
