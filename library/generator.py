@@ -6,6 +6,8 @@ import yaml
 import torch.jit
 import numpy as np
 
+import library.utils as utils
+
 from pathlib import Path
 from datetime import datetime
 from omegaconf import OmegaConf
@@ -158,7 +160,8 @@ class Generator:
             })
           main_config["list"] = videos
 
-        Path(self.temp_dir).mkdir(parents=True, exist_ok=True)
+        #Path(self.temp_dir).mkdir(parents=True, exist_ok=True)
+        utils.create_dir(self.temp_dir)
 
         with open("temp/config.yaml", "w") as yaml_file:
           yaml.dump(main_config, yaml_file, default_flow_style=False)
