@@ -196,3 +196,5 @@ class Generator:
                 f"_{datetime.now().strftime('%Y%m%d%H%M%S')}.mp4",
                 fps=task.fps,
             )
+
+            Utils.flush_ram()
