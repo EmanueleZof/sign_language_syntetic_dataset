@@ -112,9 +112,7 @@ train_labels()
 # Configuration
 _TEST_VIDEO_URL="http://158.109.8.102/AuTSL/data/test/test_set_xsaft57.zip"
 _TEST_LABELS_URL="http://158.109.8.102/AuTSL/data/test/test_labels.zip"
-
 _TEST_VIDEO_FILE="test_set_xsaft57.zip"
-
 _TEST_PASSWORD="ds6Kvdus3o"
 
 test()
