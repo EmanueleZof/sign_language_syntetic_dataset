@@ -18,7 +18,6 @@ mkdir -p $_TEMP_FOLDER
 echo "***** Install dependencies *****"
 echo
 apt-get install pv
-apt-get install p7zip-full
 
 #------------------------- CLASSES -------------------------#
 class()
@@ -126,30 +125,30 @@ test()
     # Videos
     echo "***** Downloading videos (3 parts) *****"
     echo
-    wget "$_TEST_VIDEO_URL.001"
-    wget "$_TEST_VIDEO_URL.002"
-    wget "$_TEST_VIDEO_URL.003"
+    wget "$_TEMP_FOLDER/$_TEST_VIDEO_URL.001"
+    wget "$_TEMP_FOLDER/$_TEST_VIDEO_URL.002"
+    wget "$_TEMP_FOLDER/$_TEST_VIDEO_URL.003"
 
-    echo "***** Merging *****"
-    echo
-    cat $_TEST_VIDEO_FILE* > test_videos.zip
+    #echo "***** Merging *****"
+    #echo
+    #cat $_TEST_VIDEO_FILE* > test_videos.zip
 
-    echo "***** Unzipping *****"
-    echo
-    unzip -q -P $_TEST_VIDEO_PASSWORD -o test_videos.zip -d $_MAIN_FOLDER & pv -p -d "$!"
-    echo
+    #echo "***** Unzipping *****"
+    #echo
+    #unzip -q -P $_TEST_VIDEO_PASSWORD -o test_videos.zip -d $_MAIN_FOLDER & pv -p -d "$!"
+    #echo
 
-    echo "***** Cleaning *****"
-    echo
-    rm $_TEST_VIDEO_FILE*
-    rm test_videos.zip
+    #echo "***** Cleaning *****"
+    #echo
+    #rm $_TEST_VIDEO_FILE*
+    #rm test_videos.zip
 
-    echo "***** Sorting *****"
-    echo
-    mkdir -p "./AUTSL/test/color"
-    mkdir -p "./AUTSL/test/depth"
-    mv ./AUTSL/test/*_color.mp4 "./AUTSL/test/color"
-    mv ./AUTSL/test/*_depth.mp4 "./AUTSL/test/depth"
+    #echo "***** Sorting *****"
+    #echo
+    #mkdir -p "./AUTSL/test/color"
+    #mkdir -p "./AUTSL/test/depth"
+    #mv ./AUTSL/test/*_color.mp4 "./AUTSL/test/color"
+    #mv ./AUTSL/test/*_depth.mp4 "./AUTSL/test/depth"
 
     # Labels
     #echo "***** Downloading labels *****"
