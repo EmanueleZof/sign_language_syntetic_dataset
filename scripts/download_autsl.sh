@@ -9,8 +9,13 @@ then
 fi
 
 _MAIN_FOLDER="./AUTSL"
+_TEMP_FOLDER="$_MAIN_FOLDER/temp"
 
 mkdir -p $_MAIN_FOLDER
+mkdir -p $_TEMP_FOLDER
+
+#------------------------- Install PV -------------------------#
+apt-get install pv
 
 #------------------------- CLASSES -------------------------#
 class()
@@ -149,7 +154,8 @@ test()
 
     echo "***** Unzipping labels *****"
     echo
-    unzip -q -P $_TEST_LABELS_PASSWORD -o "$_MAIN_FOLDER/test/test_labels.zip" -d "$_MAIN_FOLDER/test" & pv -p -d "$!"
+    unzip -q -P $_TEST_LABELS_PASSWORD -o "$_MAIN_FOLDER/test/test_labels.zip" -d "$_MAIN_FOLDER/test"
+    mv "ground_truth.csv" "test_labels.csv"
     echo
 
     echo "***** Cleaning labels *****"
@@ -168,7 +174,8 @@ test_labels()
 
     echo "***** Unzipping labels *****"
     echo
-    unzip -q -P $_TEST_LABELS_PASSWORD -o "$_MAIN_FOLDER/test/test_labels.zip" -d "$_MAIN_FOLDER/test" & pv -p -d "$!"
+    unzip -q -P $_TEST_LABELS_PASSWORD -o "$_MAIN_FOLDER/test/test_labels.zip" -d "$_MAIN_FOLDER/test"
+    mv "ground_truth.csv" "test_labels.csv"
     echo
 
     echo "***** Cleaning labels *****"
