@@ -31,8 +31,6 @@ class Generator:
         self.ASPECT_RATIO = 9 / 16
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-        self._main()
-
     def _output_dir(self):
         Path(self.output_dir).mkdir(parents=True, exist_ok=True)
 
@@ -40,7 +38,7 @@ class Generator:
         gc.collect()
 
     def _load_images(self, images_json):
-        images_file = open(images_json) 
+        images_file = open(images_json)
         images_list = json.load(images_file)
         print(images_list)
 
@@ -112,7 +110,7 @@ class Generator:
         return _video_frames
 
     @torch.no_grad()
-    def _main(self):        
+    def main(self):        
         self._output_dir()
 
         if self.use_float16 :
