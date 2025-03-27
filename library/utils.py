@@ -1,3 +1,4 @@
+import gc
 import requests
 
 from pathlib import Path
