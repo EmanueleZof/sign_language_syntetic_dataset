@@ -9,10 +9,8 @@ then
 fi
 
 _MAIN_FOLDER="./AUTSL"
-_TEMP_FOLDER="$_MAIN_FOLDER/temp"
 
 mkdir -p $_MAIN_FOLDER
-mkdir -p $_TEMP_FOLDER
 
 #------------------------- Install PV -------------------------#
 echo "***** Install dependencies *****"
@@ -111,9 +109,10 @@ train_labels()
 
 # Configuration
 _TEST_VIDEO_URL="http://158.109.8.102/AuTSL/data/test/test_set_xsaft57.zip"
-_TEST_LABELS_URL="http://158.109.8.102/AuTSL/data/test/test_labels.zip"
 _TEST_VIDEO_FILE="test_set_xsaft57.zip"
-_TEST_PASSWORD="ds6Kvdus3o"
+_TEST_VIDEO_PASSWORD="ds6Kvdus3o"
+_TEST_LABELS_URL="http://158.109.8.102/AuTSL/data/test/test_labels.zip"
+_TEST_LABELS_PASSWORD="ds6Kvdus3o"
 
 test()
 {
@@ -123,45 +122,45 @@ test()
     # Videos
     echo "***** Downloading videos (3 parts) *****"
     echo
-    wget -P $_TEMP_FOLDER "$_TEST_VIDEO_URL.001"
-    wget -P $_TEMP_FOLDER "$_TEST_VIDEO_URL.002"
-    wget -P $_TEMP_FOLDER "$_TEST_VIDEO_URL.003"
+    wget "$_TEST_VIDEO_URL.001"
+    wget "$_TEST_VIDEO_URL.002"
+    wget "$_TEST_VIDEO_URL.003"
 
     echo "***** Merging *****"
     echo
-    cat "$_TEMP_FOLDER/$_TEST_VIDEO_FILE"* > test_videos.zip
+    cat $_TEST_VIDEO_FILE* > test_videos.zip
 
-    #echo "***** Unzipping *****"
-    #echo
-    #unzip -q -P $_TEST_VIDEO_PASSWORD -o test_videos.zip -d $_MAIN_FOLDER & pv -p -d "$!"
-    #echo
+    echo "***** Unzipping *****"
+    echo
+    unzip -q -P $_TEST_VIDEO_PASSWORD -o test_videos.zip -d $_MAIN_FOLDER & pv -p -d "$!"
+    echo
 
-    #echo "***** Cleaning *****"
-    #echo
-    #rm $_TEST_VIDEO_FILE*
-    #rm test_videos.zip
+    echo "***** Cleaning *****"
+    echo
+    rm $_TEST_VIDEO_FILE*
+    rm test_videos.zip
 
-    #echo "***** Sorting *****"
-    #echo
-    #mkdir -p "./AUTSL/test/color"
-    #mkdir -p "./AUTSL/test/depth"
-    #mv ./AUTSL/test/*_color.mp4 "./AUTSL/test/color"
-    #mv ./AUTSL/test/*_depth.mp4 "./AUTSL/test/depth"
+    echo "***** Sorting *****"
+    echo
+    mkdir -p "./AUTSL/test/color"
+    mkdir -p "./AUTSL/test/depth"
+    mv ./AUTSL/test/*_color.mp4 "./AUTSL/test/color"
+    mv ./AUTSL/test/*_depth.mp4 "./AUTSL/test/depth"
 
     # Labels
-    #echo "***** Downloading labels *****"
-    #echo
-    #wget -O "$_MAIN_FOLDER/test/test_labels.zip" $_TEST_LABELS_URL
+    echo "***** Downloading labels *****"
+    echo
+    wget -O "$_MAIN_FOLDER/test/test_labels.zip" $_TEST_LABELS_URL
+    
+    echo "***** Unzipping labels *****"
+    echo
+    unzip -q -P $_TEST_LABELS_PASSWORD -o "$_MAIN_FOLDER/test/test_labels.zip" -d "$_MAIN_FOLDER/test"
+    mv "ground_truth.csv" "test_labels.csv"
+    echo
 
-    #echo "***** Unzipping labels *****"
-    #echo
-    #unzip -q -P $_TEST_LABELS_PASSWORD -o "$_MAIN_FOLDER/test/test_labels.zip" -d "$_MAIN_FOLDER/test"
-    #mv "ground_truth.csv" "test_labels.csv"
-    #echo
-
-    #echo "***** Cleaning labels *****"
-    #echo
-    #rm "$_MAIN_FOLDER/test/test_labels.zip"
+    echo "***** Cleaning labels *****"
+    echo
+    rm "$_MAIN_FOLDER/test/test_labels.zip"
 }
 
 test_labels()
@@ -172,7 +171,7 @@ test_labels()
     mkdir -p "$_MAIN_FOLDER/test"
 
     wget -O "$_MAIN_FOLDER/test/test_labels.zip" $_TEST_LABELS_URL
-
+    
     echo "***** Unzipping labels *****"
     echo
     unzip -q -P $_TEST_LABELS_PASSWORD -o "$_MAIN_FOLDER/test/test_labels.zip" -d "$_MAIN_FOLDER/test"
