@@ -1,6 +1,7 @@
 import gc
 import os
 import math
+import json
 import torch.jit
 import numpy as np
 
@@ -37,6 +38,11 @@ class Generator:
 
     def _flush_ram(self):
         gc.collect()
+
+    def _load_images(self, images_json):
+        images_file = open(images_json) 
+        images_list = json.load(images_file)
+        print(images_list)
 
     def _preprocess(self, video_path, image_path, resolution=576, sample_stride=2):
         """preprocess ref image pose and video pose
