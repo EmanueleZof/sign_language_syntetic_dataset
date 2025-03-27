@@ -144,7 +144,7 @@ class Generator:
 
           for i in range(num_video):
             videos.append({
-                "ref_video_path": "test_video",
+                "ref_video_path": video_path,
                 "ref_image_path": images_list[np.random.randint(0,len(images_list))],
                 "num_frames": model,
                 "resolution": self.default_video["resolution"],
