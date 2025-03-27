@@ -22,7 +22,7 @@ from MimicMotion.mimicmotion.dwpose.preprocess import get_video_pose, get_image_
 class Generator:
     def __init__(self,
                  output_dir = "outputs/",
-                 temp_dir = "temp/"
+                 temp_dir = "temp/",
                  use_float16 = True
                  ):
         self.output_dir = output_dir
