@@ -154,7 +154,7 @@ class Generator:
 
           main_config["list"] = videos
 
-        with open('result.yaml', 'w') as yaml_file:
+        with open('temp/config.yaml', 'w') as yaml_file:
           yaml.dump(main_config, yaml_file, default_flow_style=False)
 
     @torch.no_grad()
