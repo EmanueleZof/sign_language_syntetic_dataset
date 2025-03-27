@@ -148,19 +148,21 @@ test()
     mv ./AUTSL/test/*_depth.mp4 "./AUTSL/test/depth"
 
     # Labels
-    echo "***** Downloading labels *****"
-    echo
-    wget -O "$_MAIN_FOLDER/test/test_labels.zip" $_TEST_LABELS_URL
-    
-    echo "***** Unzipping labels *****"
-    echo
-    unzip -q -P $_TEST_LABELS_PASSWORD -o "$_MAIN_FOLDER/test/test_labels.zip" -d "$_MAIN_FOLDER/test"
-    mv "ground_truth.csv" "test_labels.csv"
-    echo
+    test_labels
 
-    echo "***** Cleaning labels *****"
-    echo
-    rm "$_MAIN_FOLDER/test/test_labels.zip"
+    #echo "***** Downloading labels *****"
+    #echo
+    #wget -O "$_MAIN_FOLDER/test/test_labels.zip" $_TEST_LABELS_URL
+    
+    #echo "***** Unzipping labels *****"
+    #echo
+    #unzip -q -P $_TEST_LABELS_PASSWORD -o "$_MAIN_FOLDER/test/test_labels.zip" -d "$_MAIN_FOLDER/test"
+    #mv "ground_truth.csv" "test_labels.csv"
+    #echo
+
+    #echo "***** Cleaning labels *****"
+    #echo
+    #rm "$_MAIN_FOLDER/test/test_labels.zip"
 }
 
 test_labels()
