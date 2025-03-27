@@ -127,9 +127,9 @@ test()
     wget -P $_TEMP_FOLDER "$_TEST_VIDEO_URL.002"
     wget -P $_TEMP_FOLDER "$_TEST_VIDEO_URL.003"
 
-    #echo "***** Merging *****"
-    #echo
-    #cat $_TEST_VIDEO_FILE* > test_videos.zip
+    echo "***** Merging *****"
+    echo
+    cat "$_TEMP_FOLDER/$_TEST_VIDEO_FILE"* > test_videos.zip
 
     #echo "***** Unzipping *****"
     #echo
