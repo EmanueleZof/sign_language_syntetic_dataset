@@ -110,7 +110,7 @@ class Generator:
         return _video_frames
 
     @torch.no_grad()
-    def main(self):        
+    def generate(self):        
         self._output_dir()
 
         if self.use_float16 :
