@@ -2,6 +2,7 @@ import gc
 import os
 import math
 import json
+import yaml
 import torch.jit
 import numpy as np
 
@@ -31,6 +32,27 @@ class Generator:
         self.ASPECT_RATIO = 9 / 16
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+        self.example_video_path = "MimicMotion/assets/example_data/videos/pose1.mp4"
+        self.example_image_path = "MimicMotion/assets/example_data/images/demo1.jpg"
+        self.default_video = {
+                "ref_video_path": self.example_video_path,
+                "ref_image_path": self.example_image_path,
+                "num_frames": 72,
+                "resolution": 576,
+                "frames_overlap": 6,
+                "num_inference_steps": 25,
+                "noise_aug_strength": 0,
+                "guidance_scale": 2.0,
+                "sample_stride": 2,
+                "fps": 15,
+                "seed": 42,
+            }
+        self.default_config = {
+            "base_model_path": "stabilityai/stable-video-diffusion-img2vid-xt-1-1",
+            "ckpt_path": "models/MimicMotion_1-1.pth",
+            "list" : [self.default_video]
+        }
+
     def _output_dir(self):
         Path(self.output_dir).mkdir(parents=True, exist_ok=True)
 
@@ -40,7 +62,7 @@ class Generator:
     def _load_images(self, images_json):
         images_file = open(images_json)
         images_list = json.load(images_file)
-        print(images_list)
+        return images_list
 
     def _preprocess(self, video_path, image_path, resolution=576, sample_stride=2):
         """preprocess ref image pose and video pose
@@ -108,6 +130,32 @@ class Generator:
             _video_frames = video_frames[vid_idx, 1:]
 
         return _video_frames
+
+    def build_config(self,
+                     num_video = 1, 
+                     model = 72, 
+                     frames_overlap = 6, 
+                     video_path = "", 
+                     images_path = ""):
+        
+        main_config = self.default_config
+
+        if (video_path != "" and images_path != ""):
+          videos = []
+          images_list = self._load_images(images_path)
+
+          for i in range(num_video):
+            video_config = self.default_video
+            video_config["ref_video_path"] = "test_video"
+            video_config["ref_image_path"] = images_list[np.random.randint(0,len(images_list))]
+            video_config["num_frames"] = model
+            video_config["frames_overlap"] = frames_overlap
+            videos.append(video_config)
+
+          main_config["list"] = videos
+
+        with open('result.yaml', 'w') as yaml_file:
+          yaml.dump(main_config, yaml_file, default_flow_style=False)
 
     @torch.no_grad()
     def generate(self):        
