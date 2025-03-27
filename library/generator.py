@@ -133,30 +133,32 @@ class Generator:
 
         main_config = self.default_config
 
-        if (video_path != "" and images_path != ""):
-          videos = []
-          images_list = self._load_images(images_path)
-
-          for i in range(num_video):
-            videos.append({
-                "ref_video_path": video_path,
-                "ref_image_path": images_list[np.random.randint(0,len(images_list))],
-                "num_frames": model,
-                "resolution": self.default_video["resolution"],
-                "frames_overlap": frames_overlap,
-                "num_inference_steps": self.default_video["num_inference_steps"],
-                "noise_aug_strength": self.default_video["noise_aug_strength"],
-                "guidance_scale": self.default_video["guidance_scale"],
-                "sample_stride": self.default_video["sample_stride"],
-                "fps": self.default_video["fps"],
-                "seed": self.default_video["seed"],
-            })
-          main_config["list"] = videos
-
         Utils.create_dir(self.temp_dir)
 
-        with open("temp/config.yaml", "w") as yaml_file:
-          yaml.dump(main_config, yaml_file, default_flow_style=False)
+        if (video_path != "" and images_path != ""):
+            videos = []
+            images_list = self._load_images(images_path)
+
+            for i in range(num_video):
+                random_image = images_list[np.random.randint(0,len(images_list))]
+                videos.append({
+                    "ref_video_path": video_path,
+                    "ref_image_path": random_image,
+                    "num_frames": model,
+                    "resolution": self.default_video["resolution"],
+                    "frames_overlap": frames_overlap,
+                    "num_inference_steps": self.default_video["num_inference_steps"],
+                    "noise_aug_strength": self.default_video["noise_aug_strength"],
+                    "guidance_scale": self.default_video["guidance_scale"],
+                    "sample_stride": self.default_video["sample_stride"],
+                    "fps": self.default_video["fps"],
+                    "seed": self.default_video["seed"],
+                })
+                Utils.download_file(random_image, self.temp_dir)
+            main_config["list"] = videos
+
+        with open(f"{self.temp_dir}config.yaml", "w") as yaml_file:
+            yaml.dump(main_config, yaml_file, default_flow_style=False)
 
     @torch.no_grad()
     def generate(self, inference_config="configs/default.yaml"):
