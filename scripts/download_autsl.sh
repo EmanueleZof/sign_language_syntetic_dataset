@@ -114,6 +114,26 @@ _TEST_VIDEO_PASSWORD="ds6Kvdus3o"
 _TEST_LABELS_URL="http://158.109.8.102/AuTSL/data/test/test_labels.zip"
 _TEST_LABELS_PASSWORD="ds6Kvdus3o"
 
+test_labels()
+{
+    echo "***** Downloading Test labels *****"
+    echo
+
+    mkdir -p "$_MAIN_FOLDER/test"
+
+    wget -O "$_MAIN_FOLDER/test/test_labels.zip" $_TEST_LABELS_URL
+    
+    echo "***** Unzipping labels *****"
+    echo
+    unzip -q -P $_TEST_LABELS_PASSWORD -o "$_MAIN_FOLDER/test/test_labels.zip" -d "$_MAIN_FOLDER/test"
+    mv "$_MAIN_FOLDER/test/ground_truth.csv" "$_MAIN_FOLDER/test/test_labels.csv"
+    echo
+
+    echo "***** Cleaning labels *****"
+    echo
+    rm "$_MAIN_FOLDER/test/test_labels.zip"
+}
+
 test()
 {
     echo "AUTSL Dataset - TEST data with labels"
@@ -163,26 +183,6 @@ test()
     #echo "***** Cleaning labels *****"
     #echo
     #rm "$_MAIN_FOLDER/test/test_labels.zip"
-}
-
-test_labels()
-{
-    echo "***** Downloading Test labels *****"
-    echo
-
-    mkdir -p "$_MAIN_FOLDER/test"
-
-    wget -O "$_MAIN_FOLDER/test/test_labels.zip" $_TEST_LABELS_URL
-    
-    echo "***** Unzipping labels *****"
-    echo
-    unzip -q -P $_TEST_LABELS_PASSWORD -o "$_MAIN_FOLDER/test/test_labels.zip" -d "$_MAIN_FOLDER/test"
-    mv "$_MAIN_FOLDER/test/ground_truth.csv" "$_MAIN_FOLDER/test/test_labels.csv"
-    echo
-
-    echo "***** Cleaning labels *****"
-    echo
-    rm "$_MAIN_FOLDER/test/test_labels.zip"
 }
 
 #------------------------- VALIDATION Data -------------------------#
