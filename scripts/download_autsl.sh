@@ -175,7 +175,7 @@ test_labels()
     echo "***** Unzipping labels *****"
     echo
     unzip -q -P $_TEST_LABELS_PASSWORD -o "$_MAIN_FOLDER/test/test_labels.zip" -d "$_MAIN_FOLDER/test"
-    mv "ground_truth.csv" "test_labels.csv"
+    mv "$_MAIN_FOLDER/test/ground_truth.csv" "$_MAIN_FOLDER/test/test_labels.csv"
     echo
 
     echo "***** Cleaning labels *****"
