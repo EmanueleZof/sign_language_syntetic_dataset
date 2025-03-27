@@ -15,6 +15,8 @@ mkdir -p $_MAIN_FOLDER
 mkdir -p $_TEMP_FOLDER
 
 #------------------------- Install PV -------------------------#
+echo "***** Install dependencies *****"
+echo
 apt-get install pv
 
 #------------------------- CLASSES -------------------------#
