@@ -177,7 +177,28 @@ test()
 _VAL_VIDEO_URL="http://158.109.8.102/AuTSL/data/validation/val_set_bjhfy68.zip"
 _VAL_VIDEO_FILE="val_set_bjhfy68.zip"
 _VAL_VIDEO_PASSWORD="bhRY5B9zS2"
-_VAL_LABELS_URL="https://nlp.biu.ac.il/~amit/datasets/public/autsl_validation_labels.csv"
+_VAL_LABELS_URL="http://158.109.8.102/AuTSL/data/validation/validation_labels.zip"
+_VAL_LABELS_PASSWORD="zYX5W7fZ"
+
+validation_labels()
+{
+    echo "***** Downloading Validation labels *****"
+    echo
+
+    mkdir -p "$_MAIN_FOLDER/val"
+
+    wget -O "$_MAIN_FOLDER/val/validation_labels.zip" $_VAL_LABELS_URL
+
+    echo "***** Unzipping labels *****"
+    echo
+    unzip -q -P $_VAL_LABELS_PASSWORD -o "$_MAIN_FOLDER/val/validation_labels.zip" -d "$_MAIN_FOLDER/val"
+    mv "$_MAIN_FOLDER/val/ground_truth.csv" "$_MAIN_FOLDER/val/validation_labels.csv"
+    echo
+
+    echo "***** Cleaning labels *****"
+    echo
+    rm "$_MAIN_FOLDER/val/validation_labels.zip"
+}
 
 validation()
 {
@@ -213,19 +234,7 @@ validation()
     mv ./AUTSL/val/*_depth.mp4 "./AUTSL/val/depth"
 
     # Labels
-    echo "***** Downloading labels *****"
-    echo
-    wget -O "$_MAIN_FOLDER/val/validation_labels.csv" $_VAL_LABELS_URL
-}
-
-validation_labels()
-{
-    echo "***** Downloading Validation labels *****"
-    echo
-
-    mkdir -p "$_MAIN_FOLDER/val"
-
-    wget -O "$_MAIN_FOLDER/val/validation_labels.csv" $_VAL_LABELS_URL
+    validation_labels
 }
 
 for ARG in "$@"
