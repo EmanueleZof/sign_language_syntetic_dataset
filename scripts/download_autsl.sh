@@ -41,6 +41,16 @@ _TRAIN_VIDEO_FILE="train_set_vfbha39.zip"
 _TRAIN_VIDEO_PASSWORD="MdG3z6Eh1t"
 _TRAIN_LABELS_URL="http://158.109.8.102/AuTSL/data/train/train_labels.csv"
 
+train_labels()
+{
+    echo "***** Downloading Train labels *****"
+    echo
+
+    mkdir -p "$_MAIN_FOLDER/train"
+
+    wget -O "$_MAIN_FOLDER/train/train_labels.csv" $_TRAIN_LABELS_URL
+}
+
 train()
 {
     echo "AUTSL Dataset - TRAIN data with labels"
@@ -90,19 +100,7 @@ train()
     mv ./AUTSL/train/*_depth.mp4 "./AUTSL/train/depth"
 
     # Labels
-    echo "***** Downloading labels *****"
-    echo
-    wget -O "$_MAIN_FOLDER/train/train_labels.csv" $_TRAIN_LABELS_URL
-}
-
-train_labels()
-{
-    echo "***** Downloading Train labels *****"
-    echo
-
-    mkdir -p "$_MAIN_FOLDER/train"
-
-    wget -O "$_MAIN_FOLDER/train/train_labels.csv" $_TRAIN_LABELS_URL
+    train_labels
 }
 
 #------------------------- TEST Data -------------------------#
