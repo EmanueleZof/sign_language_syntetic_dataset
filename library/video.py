@@ -49,4 +49,4 @@ class Video:
 
     def extract_videos(self, class_name):
       selected_class = [e for e in self.dataset if e["class_name"] == class_name]
-      return ''.join(selected_class[0]["video_list"])
+      return " ".join(selected_class[0]["video_list"])
