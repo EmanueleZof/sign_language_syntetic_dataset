@@ -7,13 +7,13 @@ class Video:
                 data_type = "",
                 classes = [],
                 ):
-    self.loader = loader
-    self.path = path
-    self.data_type = data_type
-    self.classes = classes
-    self.dataset = {}
+      self.loader = loader
+      self.path = path
+      self.data_type = data_type
+      self.classes = classes
+      self.dataset = {}
 
-    self.main()
+      self.main()
 
     def _autsl_loader(self, main_folder_path, data_type, classes):
         classes_path = f"{main_folder_path}/classes/classes.csv"
