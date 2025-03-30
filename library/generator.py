@@ -128,11 +128,9 @@ class Generator:
         tot_frames = frames.shape[0]
         tot_frames_to_mask = round((int(percentage) * int(tot_frames)) / 100.0)
         mask = torch.zeros((frames.shape[1],frames.shape[2],frames.shape[3]), dtype=torch.uint8)
-        print(mask.shape)
 
         for i in range(tot_frames_to_mask):
             frame_idx = np.random.randint(0, tot_frames)
-            print(frame_idx)
             frames[frame_idx] = mask
 
         return frames
@@ -202,11 +200,10 @@ class Generator:
                 task
                 )
 
+            # Mask random frames
             _video_frames = self._mask_frames(_video_frames, 10)
-            return _video_frames
 
             # Save results to output folder
-            '''
             save_to_mp4(
                 _video_frames, 
                 f"{self.output_dir}/{os.path.basename(task.ref_video_path).split('.')[0]}" \
@@ -214,6 +211,4 @@ class Generator:
                 fps=task.fps,
             )
             
-
             Utils.flush_ram()
-            '''
