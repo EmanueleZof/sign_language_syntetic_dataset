@@ -122,10 +122,6 @@ class Generator:
             # deprecated first frame because of ref image
             _video_frames = video_frames[vid_idx, 1:]
 
-        print(_video_frames)
-        print(_video_frames.shape)
-        print(_video_frames.size())
-
         return _video_frames
 
     def build_config(self,
@@ -193,6 +189,8 @@ class Generator:
                 task
                 )
 
+            return _video_frames
+
             # Save results to output folder
             '''
             save_to_mp4(
@@ -201,6 +199,7 @@ class Generator:
                 f"_{datetime.now().strftime('%Y%m%d%H%M%S')}.mp4",
                 fps=task.fps,
             )
-            '''
+            
 
             Utils.flush_ram()
+            '''
