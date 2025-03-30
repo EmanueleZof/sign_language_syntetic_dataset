@@ -173,7 +173,7 @@ class Generator:
             yaml.dump(main_config, yaml_file, default_flow_style=False)
 
     @torch.no_grad()
-    def generate(self, inference_config="configs/default.yaml"):
+    def generate(self, inference_config="configs/default.yaml", percent_masked_frames=10):
         Utils.create_dir(self.output_dir)
 
         if self.use_float16 :
@@ -201,7 +201,7 @@ class Generator:
                 )
 
             # Mask random frames
-            _video_frames = self._mask_frames(_video_frames, 10)
+            _video_frames = self._mask_frames(_video_frames, percent_masked_frames)
 
             # Save results to output folder
             save_to_mp4(
