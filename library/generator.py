@@ -115,6 +115,11 @@ class Generator:
             output_type="pt",
             device=device
         ).frames.cpu()
+
+        print(frames)
+        print(frames.shape)
+        print(frames.size())
+
         video_frames = (frames * 255.0).to(torch.uint8)
 
         for vid_idx in range(video_frames.shape[0]):
@@ -187,8 +192,6 @@ class Generator:
                 self.device, 
                 task
                 )
-            
-            print(_video_frames)
 
             # Save results to output folder
             '''
