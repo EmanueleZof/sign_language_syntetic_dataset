@@ -116,15 +116,15 @@ class Generator:
             device=device
         ).frames.cpu()
 
-        print(frames)
-        print(frames.shape)
-        print(frames.size())
-
         video_frames = (frames * 255.0).to(torch.uint8)
 
         for vid_idx in range(video_frames.shape[0]):
             # deprecated first frame because of ref image
             _video_frames = video_frames[vid_idx, 1:]
+
+        print(_video_frames)
+        print(_video_frames.shape)
+        print(_video_frames.size())
 
         return _video_frames
 
