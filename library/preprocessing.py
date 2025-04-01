@@ -60,7 +60,7 @@ class Preprocessor:
                                         self.mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=4),
                                         self.mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2))
 
-    def _get_pose_keypoints(landmarks):
+    def _get_pose_keypoints(self, landmarks):
         if landmarks:
             pose = []
             for res in landmarks.landmark:
@@ -69,7 +69,7 @@ class Preprocessor:
         
         return np.zeros(self.POSE_KEYPOINTS*4)
 
-    def _get_face_keypoints(landmarks):
+    def _get_face_keypoints(self, landmarks):
         if landmarks:
             face = []
             for res in landmarks.landmark:
@@ -78,7 +78,7 @@ class Preprocessor:
         
         return np.zeros(self.FACE_KEYPOINTS*3)
 
-    def _get_left_hand_keypoints(landmarks):
+    def _get_left_hand_keypoints(self, landmarks):
         if landmarks:
             lh = []
             for res in landmarks.landmark:
@@ -87,7 +87,7 @@ class Preprocessor:
         
         return np.zeros(self.LH_KEYPOINTS*3)
 
-    def _get_right_hand_keypoints(landmarks):
+    def _get_right_hand_keypoints(self, landmarks):
         if landmarks:
             rh = []
             for res in landmarks.landmark:
