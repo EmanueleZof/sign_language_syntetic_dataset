@@ -11,6 +11,10 @@ class Preprocessor:
         self.MAX_FRAME_NUM = 100
         self.MIN_DETECTION_CONFIDENCE = 0.5
         self.MIN_TRACKING_CONFIDENCE = 0.5
+        self.POSE_KEYPOINTS = 33
+        self.FACE_KEYPOINTS = 468
+        self.LH_KEYPOINTS = 21
+        self.RH_KEYPOINTS = 21
 
         self.mp_drawing = mp.solutions.drawing_utils
         self.mp_holistic = mp.solutions.holistic
@@ -23,7 +27,7 @@ class Preprocessor:
             csv_writer.writerow(data)
 
     def _scaffold_landmarks(self):
-        num_coords = 486 + 33 # + 21 + 21 # Face + Pose + Left hand + Right hand
+        num_coords = self.POSE_KEYPOINTS + self.FACE_KEYPOINTS # + 21 + 21 # Face + Pose + Left hand + Right hand
         landmarks = ["class"]
 
         for val in range(1, num_coords+1):
@@ -56,6 +60,50 @@ class Preprocessor:
                                         self.mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=4),
                                         self.mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2))
 
+    def _get_pose_keypoints(landmarks):
+        if landmarks:
+            pose = []
+            for res in landmarks.landmark:
+                pose.append(np.array([res.x, res.y, res.z, res.visibility]))
+            return np.array(pose).flatten()
+        
+        return np.zeros(self.POSE_KEYPOINTS*4)
+
+    def _get_face_keypoints(landmarks):
+        if landmarks:
+            face = []
+            for res in landmarks.landmark:
+                face.append(np.array([res.x, res.y, res.z]))
+            return np.array(face).flatten()
+        
+        return np.zeros(self.FACE_KEYPOINTS*3)
+
+    def _get_left_hand_keypoints(landmarks):
+        if landmarks:
+            lh = []
+            for res in landmarks.landmark:
+                lh.append(np.array([res.x, res.y, res.z]))
+            return np.array(lh).flatten()
+        
+        return np.zeros(self.LH_KEYPOINTS*3)
+
+    def _get_right_hand_keypoints(landmarks):
+        if landmarks:
+            rh = []
+            for res in landmarks.landmark:
+                rh.append(np.array([res.x, res.y, res.z]))
+            return np.array(rh).flatten()
+        
+        return np.zeros(self.RH_KEYPOINTS*3)
+
+    def _extract_keypoints(self, results):
+        pose = self._get_pose_keypoints(results.pose_landmarks)
+        face = self._get_face_keypoints(results.face_landmarks)
+        lh = self._get_left_hand_keypoints(results.left_hand_landmarks)
+        rh = self._get_right_hand_keypoints(results.right_hand_landmarks)
+
+        return np.concatenate([pose, face]) #np.concatenate([pose, face, lh, rh])
+
     def _process_video(self, video, show=False):
         cap = cv2.VideoCapture(video)
 
@@ -81,11 +129,10 @@ class Preprocessor:
                     self._draw_landmarks(image, results)
                     cv2_imshow(image)
 
-                face = results.face_landmarks.landmark
-                face_row = list(np.array([[landmark.x, landmark.y, landmark.z, landmark.visibility] for landmark in face]).flatten())
+                keypoints = self._extract_keypoints(results)
+                keypoints.insert(0, "hi")
 
-                print(face)
-                print(face_row)
+                self._save_csv_file("keyframes.csv", "a", keypoints)
 
                 #utils.create_folder(save_dir)
                 #file_name = os.path.join(save_dir, str(frame_num))
