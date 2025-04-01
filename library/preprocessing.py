@@ -11,8 +11,6 @@ class Preprocessor:
 
         self.mp_drawing = mp.solutions.drawing_utils
         self.mp_holistic = mp.solutions.holistic
-
-        self.output_dir = "."
         
     def _draw_landmarks(self, image, results):
         self.mp_drawing.draw_landmarks( image, 
@@ -74,5 +72,5 @@ class Preprocessor:
             cap.release()
             cv2.destroyAllWindows()
 
-    def process(self,file, output_dir=self.output_dir):
+    def process(self, file, output_dir="."):
         self._process_video(file, True)
