@@ -74,5 +74,5 @@ class Preprocessor:
             cap.release()
             cv2.destroyAllWindows()
 
-    def process(file, output_dir=self.output_dir):
+    def process(self,file, output_dir=self.output_dir):
         self._process_video(file, True)
