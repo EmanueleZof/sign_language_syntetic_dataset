@@ -58,7 +58,7 @@ class Preprocessor:
                 image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
                 if (show == True):
-                    _draw_landmarks(image, results)
+                    self._draw_landmarks(image, results)
                     cv2_imshow(image)
 
                 #keypoints = extract_keypoints(results)
