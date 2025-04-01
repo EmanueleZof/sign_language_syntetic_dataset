@@ -39,6 +39,15 @@ class Preprocessor:
                                         self.mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=4),
                                         self.mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2))
 
+    def _extract_landmarks(self, results):
+        num_coords = len(results.pose_landmarks.landmark)+len(results.face_landmarks.landmark)
+        landmarks = ["class"]
+
+        for val in range(1, num_coords+1):
+            landmarks += ["x{}".format(val), "y{}".format(val), "z{}".format(val), "v{}".format(val)]
+
+        return landmarks
+
     def _process_video(self, video, show=False):
         cap = cv2.VideoCapture(video)
 
@@ -64,16 +73,16 @@ class Preprocessor:
                     self._draw_landmarks(image, results)
                     cv2_imshow(image)
 
-                #keypoints = extract_keypoints(results)
+                landmarks = self._extract_landmarks(results)
+
+                return landmarks
 
                 #utils.create_folder(save_dir)
                 #file_name = os.path.join(save_dir, str(frame_num))
                 #np.save(file_name, keypoints)
-
-                #cv2.imshow(image)
                 
             cap.release()
             cv2.destroyAllWindows()
 
-    def process(self, file, output_dir="."):
+    def process(self, file, output_dir=".", show):
         self._process_video(file, True)
