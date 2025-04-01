@@ -42,7 +42,7 @@ class Preprocessor:
         if (cap.isOpened() == False):
             sys.exit('Error opening video stream or file')
 
-        with mp_holistic.Holistic(min_detection_confidence=self.MIN_DETECTION_CONFIDENCE, min_tracking_confidence=self.MIN_TRACKING_CONFIDENCE) as holistic:
+        with self.mp_holistic.Holistic(min_detection_confidence=self.MIN_DETECTION_CONFIDENCE, min_tracking_confidence=self.MIN_TRACKING_CONFIDENCE) as holistic:
             for frame_num in range(self.MAX_FRAME_NUM):
                 ret, frame = cap.read()
 
