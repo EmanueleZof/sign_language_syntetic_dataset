@@ -3,7 +3,7 @@ import sys
 import numpy as np
 import mediapipe as mp
 
-class Preproccesing:
+class Preprocessor:
     def __init__(self):
         self.MAX_FRAME_NUM = 100
         self.MIN_DETECTION_CONFIDENCE = 0.5
