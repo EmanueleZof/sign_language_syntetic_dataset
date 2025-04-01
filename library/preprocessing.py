@@ -3,6 +3,8 @@ import sys
 import numpy as np
 import mediapipe as mp
 
+from google.colab.patches import cv2_imshow
+
 class Preprocessor:
     def __init__(self):
         self.MAX_FRAME_NUM = 100
