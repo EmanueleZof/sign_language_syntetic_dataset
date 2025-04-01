@@ -13,7 +13,19 @@ class Preprocessor:
 
         self.mp_drawing = mp.solutions.drawing_utils
         self.mp_holistic = mp.solutions.holistic
-        
+
+        self.landmarks = []
+        self._scaffold_landmarks()
+    
+    def _scaffold_landmarks(self):
+        num_coords = 486 + 33
+        self.landmarks = ["class"]
+
+        for val in range(1, num_coords+1):
+            self.landmarks += ["x{}".format(val), "y{}".format(val), "z{}".format(val), "v{}".format(val)]
+
+        print(landmarks)
+
     def _draw_landmarks(self, image, results):
         self.mp_drawing.draw_landmarks( image, 
                                         results.face_landmarks, 
@@ -38,15 +50,6 @@ class Preprocessor:
                                         self.mp_holistic.POSE_CONNECTIONS, 
                                         self.mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=4),
                                         self.mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2))
-
-    def _extract_landmarks(self, results):
-        num_coords = len(results.pose_landmarks.landmark)+len(results.face_landmarks.landmark)
-        landmarks = ["class"]
-
-        for val in range(1, num_coords+1):
-            landmarks += ["x{}".format(val), "y{}".format(val), "z{}".format(val), "v{}".format(val)]
-
-        print(landmarks)
 
     def _process_video(self, video, show=False):
         cap = cv2.VideoCapture(video)
@@ -73,8 +76,6 @@ class Preprocessor:
                     self._draw_landmarks(image, results)
                     cv2_imshow(image)
 
-                self._extract_landmarks(results)
-
                 #utils.create_folder(save_dir)
                 #file_name = os.path.join(save_dir, str(frame_num))
                 #np.save(file_name, keypoints)
@@ -84,3 +85,4 @@ class Preprocessor:
 
     def process(self, file, output_dir=".", show=False):
         self._process_video(file, show)
+        return self.landmarks
