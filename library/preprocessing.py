@@ -15,6 +15,7 @@ class Preprocessor:
         self.FACE_KEYPOINTS = 468
         self.LH_KEYPOINTS = 21
         self.RH_KEYPOINTS = 21
+        self.OUTPUT_FILE = "keyframes.csv"
 
         self.mp_drawing = mp.solutions.drawing_utils
         self.mp_holistic = mp.solutions.holistic
@@ -33,7 +34,7 @@ class Preprocessor:
         for val in range(1, num_coords+1):
             landmarks += ["x{}".format(val), "y{}".format(val), "z{}".format(val), "v{}".format(val)]
 
-        self._save_csv_file("keyframes.csv", "w", landmarks)
+        self._save_csv_file(self.OUTPUT_FILE, "w", landmarks)
 
     def _draw_landmarks(self, image, results):
         self.mp_drawing.draw_landmarks( image, 
@@ -130,9 +131,9 @@ class Preprocessor:
                     cv2_imshow(image)
 
                 keypoints = self._extract_keypoints(results)
-                keypoints.insert(0, "hi")
+                np.insert(keypoints, 0, "hi")
 
-                self._save_csv_file("keyframes.csv", "a", keypoints)
+                self._save_csv_file(self.OUTPUT_FILE, "a", keypoints)
 
                 #utils.create_folder(save_dir)
                 #file_name = os.path.join(save_dir, str(frame_num))
