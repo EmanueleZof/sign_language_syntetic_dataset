@@ -1,5 +1,6 @@
 import cv2
 import sys
+import csv
 import numpy as np
 import mediapipe as mp
 
@@ -14,16 +15,21 @@ class Preprocessor:
         self.mp_drawing = mp.solutions.drawing_utils
         self.mp_holistic = mp.solutions.holistic
 
-        self.landmarks = []
-
         self._scaffold_landmarks()
     
+    def _save_csv_file(self, file_name, write_mode, data):
+        with open(file_name, mode=write_mode, newline="") as f:
+            csv_writer = csv.writer(f, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            csv_writer.writerow(data)
+
     def _scaffold_landmarks(self):
-        num_coords = 486 + 33
-        self.landmarks = ["class"]
+        num_coords = 486 + 33 # + 21 + 21 # Face + Pose + Left hand + Right hand
+        landmarks = ["class"]
 
         for val in range(1, num_coords+1):
-            self.landmarks += ["x{}".format(val), "y{}".format(val), "z{}".format(val), "v{}".format(val)]
+            landmarks += ["x{}".format(val), "y{}".format(val), "z{}".format(val), "v{}".format(val)]
+
+        self._save_csv_file("keyframes.csv", "w", landmarks)
 
     def _draw_landmarks(self, image, results):
         self.mp_drawing.draw_landmarks( image, 
@@ -75,6 +81,12 @@ class Preprocessor:
                     self._draw_landmarks(image, results)
                     cv2_imshow(image)
 
+                face = results.face_landmarks.landmark
+                face_row = list(np.array([[landmark.x, landmark.y, landmark.z, landmark.visibility] for landmark in face]).flatten())
+
+                print(face)
+                print(face_row)
+
                 #utils.create_folder(save_dir)
                 #file_name = os.path.join(save_dir, str(frame_num))
                 #np.save(file_name, keypoints)
@@ -84,4 +96,3 @@ class Preprocessor:
 
     def process(self, file, output_dir=".", show=False):
         self._process_video(file, show)
-        return self.landmarks
