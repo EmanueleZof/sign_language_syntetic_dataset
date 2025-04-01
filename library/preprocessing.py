@@ -66,18 +66,18 @@ class Preprocessor:
             pose = []
             for res in landmarks.landmark:
                 pose.append(np.array([res.x, res.y, res.z, res.visibility]))
-            return np.array(pose).flatten()
+            return list(np.array(pose).flatten())
         
-        return np.zeros(self.POSE_KEYPOINTS*4)
+        return list(np.zeros(self.POSE_KEYPOINTS*4))
 
     def _get_face_keypoints(self, landmarks):
         if landmarks:
             face = []
             for res in landmarks.landmark:
                 face.append(np.array([res.x, res.y, res.z]))
-            return np.array(face).flatten()
+            return list(np.array(face).flatten())
         
-        return np.zeros(self.FACE_KEYPOINTS*3)
+        return list(np.zeros(self.FACE_KEYPOINTS*3))
 
     def _get_left_hand_keypoints(self, landmarks):
         if landmarks:
@@ -103,7 +103,8 @@ class Preprocessor:
         lh = self._get_left_hand_keypoints(results.left_hand_landmarks)
         rh = self._get_right_hand_keypoints(results.right_hand_landmarks)
 
-        return np.concatenate([pose, face]) #np.concatenate([pose, face, lh, rh])
+        #return np.concatenate([pose, face, lh, rh])
+        return pose+face
 
     def _process_video(self, video, show=False):
         cap = cv2.VideoCapture(video)
@@ -131,7 +132,7 @@ class Preprocessor:
                     cv2_imshow(image)
 
                 keypoints = self._extract_keypoints(results)
-                np.insert(keypoints, 0, "hi")
+                keypoints.insert(0, "hi")
 
                 self._save_csv_file(self.OUTPUT_FILE, "a", keypoints)
 
