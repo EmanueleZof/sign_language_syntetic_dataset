@@ -46,7 +46,7 @@ class Preprocessor:
         for val in range(1, num_coords+1):
             landmarks += ["x{}".format(val), "y{}".format(val), "z{}".format(val), "v{}".format(val)]
 
-        return landmarks
+        print(landmarks)
 
     def _process_video(self, video, show=False):
         cap = cv2.VideoCapture(video)
@@ -73,9 +73,7 @@ class Preprocessor:
                     self._draw_landmarks(image, results)
                     cv2_imshow(image)
 
-                landmarks = self._extract_landmarks(results)
-
-                return landmarks
+                self._extract_landmarks(results)
 
                 #utils.create_folder(save_dir)
                 #file_name = os.path.join(save_dir, str(frame_num))
