@@ -15,6 +15,7 @@ class Preprocessor:
         self.mp_holistic = mp.solutions.holistic
 
         self.landmarks = []
+
         self._scaffold_landmarks()
     
     def _scaffold_landmarks(self):
@@ -23,8 +24,6 @@ class Preprocessor:
 
         for val in range(1, num_coords+1):
             self.landmarks += ["x{}".format(val), "y{}".format(val), "z{}".format(val), "v{}".format(val)]
-
-        print(landmarks)
 
     def _draw_landmarks(self, image, results):
         self.mp_drawing.draw_landmarks( image, 
