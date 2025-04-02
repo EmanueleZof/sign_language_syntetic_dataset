@@ -105,7 +105,7 @@ class Preprocessor:
 
         return pose + face + lh + rh
 
-    def _process_video(self, video, show=False):
+    def _process_video(self, video, class_name, show=False):
         cap = cv2.VideoCapture(video)
 
         if (cap.isOpened() == False):
@@ -132,7 +132,7 @@ class Preprocessor:
 
                 if (ret == True):
                     keypoints = self._extract_keypoints(results)
-                    keypoints.insert(0, "hi")
+                    keypoints.insert(0, class_name)
                     print(len(keypoints))
 
                 self._save_csv_file(self.OUTPUT_FILE, "a", keypoints)
@@ -144,5 +144,8 @@ class Preprocessor:
             cap.release()
             cv2.destroyAllWindows()
 
-    def process(self, file, output_dir=".", show=False):
-        self._process_video(file, show)
+    def process(self, file, class_name output_dir=".", show=False):
+        if (class_name):
+            self.OUTPUT_FILE = f"{class_name}.csv"
+
+        self._process_video(file, class_name, show)
