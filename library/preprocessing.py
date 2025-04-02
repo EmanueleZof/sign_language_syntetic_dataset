@@ -116,7 +116,7 @@ class Preprocessor:
             for frame_num in range(self.MAX_FRAME_NUM):
                 ret, frame = cap.read()
 
-                if ret == False:
+                if (ret == False):
                     frame = np.zeros((512, 512, 3), np.uint8)
                 
                 image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -131,7 +131,7 @@ class Preprocessor:
                     self._draw_landmarks(image, results)
                     cv2_imshow(image)
 
-                if ret == True
+                if (ret == True):
                     keypoints = self._extract_keypoints(results)
                     keypoints.insert(0, "hi")
 
