@@ -22,6 +22,7 @@ class Preprocessor:
         self.mp_drawing = mp.solutions.drawing_utils
         self.mp_holistic = mp.solutions.holistic
 
+        Utils.create_dir(Utils.OUTPUT_DIR)
         self._scaffold_landmarks()
     
     def _save_csv_file(self, file_name, write_mode, data):
@@ -142,6 +143,4 @@ class Preprocessor:
             cv2.destroyAllWindows()
 
     def process(self, file, class_name, show=False):
-        Utils.create_dir(Utils.OUTPUT_DIR)
-
         self._process_video(file, class_name, show)
