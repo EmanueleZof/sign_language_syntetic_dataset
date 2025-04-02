@@ -28,7 +28,7 @@ class Preprocessor:
             csv_writer.writerow(data)
 
     def _scaffold_landmarks(self):
-        num_coords = self.POSE_KEYPOINTS + self.FACE_KEYPOINTS # + 21 + 21 # Face + Pose + Left hand + Right hand
+        num_coords = self.POSE_KEYPOINTS + self.FACE_KEYPOINTS + self.LH_KEYPOINTS + self.RH_KEYPOINTS
         landmarks = ["class"]
 
         for val in range(1, num_coords+1):
@@ -83,19 +83,19 @@ class Preprocessor:
         if landmarks:
             lh = []
             for res in landmarks.landmark:
-                lh.append(np.array([res.x, res.y, res.z]))
-            return np.array(lh).flatten()
+                lh.append(np.array([res.x, res.y, res.z, 0.0]))
+            return list(np.array(lh).flatten())
         
-        return np.zeros(self.LH_KEYPOINTS*3)
+        return list(np.zeros(self.LH_KEYPOINTS*4))
 
     def _get_right_hand_keypoints(self, landmarks):
         if landmarks:
             rh = []
             for res in landmarks.landmark:
-                rh.append(np.array([res.x, res.y, res.z]))
-            return np.array(rh).flatten()
+                rh.append(np.array([res.x, res.y, res.z, 0.0]))
+            return list(np.array(rh).flatten())
         
-        return np.zeros(self.RH_KEYPOINTS*3)
+        return list(np.zeros(self.RH_KEYPOINTS*4))
 
     def _extract_keypoints(self, results):
         pose = self._get_pose_keypoints(results.pose_landmarks)
@@ -103,8 +103,7 @@ class Preprocessor:
         lh = self._get_left_hand_keypoints(results.left_hand_landmarks)
         rh = self._get_right_hand_keypoints(results.right_hand_landmarks)
 
-        #return np.concatenate([pose, face, lh, rh])
-        return pose+face
+        return pose + face + lh + rh
 
     def _process_video(self, video, show=False):
         cap = cv2.VideoCapture(video)
