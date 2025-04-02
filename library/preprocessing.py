@@ -1,3 +1,4 @@
+import os
 import cv2
 import sys
 import csv
@@ -6,6 +7,7 @@ import mediapipe as mp
 
 import library.utils as Utils
 
+from tqdm import tqdm
 from google.colab.patches import cv2_imshow
 
 class Preprocessor:
@@ -142,5 +144,8 @@ class Preprocessor:
             cap.release()
             cv2.destroyAllWindows()
 
-    def process(self, file, class_name, show=False):
-        self._process_video(file, class_name, show)
+    def process(self, files_dir, class_name, show=False):
+        for file in tqdm(os.listdir(files_dir)):
+            print(file)
+
+            #self._process_video(file, class_name, show)
