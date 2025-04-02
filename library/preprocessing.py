@@ -134,6 +134,7 @@ class Preprocessor:
                 if (ret == True):
                     keypoints = self._extract_keypoints(results)
                     keypoints.insert(0, "hi")
+                    print(len(keypoints))
 
                 self._save_csv_file(self.OUTPUT_FILE, "a", keypoints)
 
