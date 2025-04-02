@@ -146,6 +146,4 @@ class Preprocessor:
 
     def process(self, files_dir, class_name, show=False):
         for file in tqdm(os.listdir(files_dir)):
-            print(file)
-
-            #self._process_video(file, class_name, show)
+            self._process_video(file, class_name, show)
