@@ -133,13 +133,8 @@ class Preprocessor:
                 if (ret == True):
                     keypoints = self._extract_keypoints(results)
                     keypoints.insert(0, class_name)
-                    print(len(keypoints))
 
                 self._save_csv_file(self.OUTPUT_FILE, "a", keypoints)
-
-                #utils.create_folder(save_dir)
-                #file_name = os.path.join(save_dir, str(frame_num))
-                #np.save(file_name, keypoints)
                 
             cap.release()
             cv2.destroyAllWindows()
