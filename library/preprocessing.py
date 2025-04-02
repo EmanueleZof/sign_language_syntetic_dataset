@@ -74,10 +74,10 @@ class Preprocessor:
         if landmarks:
             face = []
             for res in landmarks.landmark:
-                face.append(np.array([res.x, res.y, res.z]))
+                face.append(np.array([res.x, res.y, res.z, 0.0]))
             return list(np.array(face).flatten())
         
-        return list(np.zeros(self.FACE_KEYPOINTS*3))
+        return list(np.zeros(self.FACE_KEYPOINTS*4))
 
     def _get_left_hand_keypoints(self, landmarks):
         if landmarks:
