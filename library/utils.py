@@ -3,6 +3,8 @@ import requests
 
 from pathlib import Path
 
+OUTPUT_DIR = "outputs/"
+
 def create_dir(path):
     Path(path).mkdir(parents=True, exist_ok=True)
 

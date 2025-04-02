@@ -4,6 +4,8 @@ import csv
 import numpy as np
 import mediapipe as mp
 
+import library.utils as Utils
+
 from google.colab.patches import cv2_imshow
 
 class Preprocessor:
@@ -15,7 +17,7 @@ class Preprocessor:
         self.FACE_KEYPOINTS = 468
         self.LH_KEYPOINTS = 21
         self.RH_KEYPOINTS = 21
-        self.OUTPUT_FILE = "keyframes.csv"
+        self.OUTPUT_FILE = Utils.OUTPUT_DIR + "keyframes.csv"
 
         self.mp_drawing = mp.solutions.drawing_utils
         self.mp_holistic = mp.solutions.holistic
@@ -139,5 +141,7 @@ class Preprocessor:
             cap.release()
             cv2.destroyAllWindows()
 
-    def process(self, file, class_name, output_dir=".", show=False):
+    def process(self, file, class_name, show=False):
+        Utils.create_dir(Utils.OUTPUT_DIR)
+
         self._process_video(file, class_name, show)
