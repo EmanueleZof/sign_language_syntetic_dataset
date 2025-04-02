@@ -131,8 +131,9 @@ class Preprocessor:
                     self._draw_landmarks(image, results)
                     cv2_imshow(image)
 
-                keypoints = self._extract_keypoints(results)
-                keypoints.insert(0, "hi")
+                if ret == True
+                    keypoints = self._extract_keypoints(results)
+                    keypoints.insert(0, "hi")
 
                 self._save_csv_file(self.OUTPUT_FILE, "a", keypoints)
 
