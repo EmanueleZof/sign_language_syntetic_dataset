@@ -145,7 +145,4 @@ class Preprocessor:
             cv2.destroyAllWindows()
 
     def process(self, file, class_name, output_dir=".", show=False):
-        if (class_name):
-            self.OUTPUT_FILE = f"{class_name}.csv"
-
         self._process_video(file, class_name, show)
