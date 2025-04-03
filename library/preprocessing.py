@@ -145,6 +145,7 @@ class Preprocessor:
             cv2.destroyAllWindows()
 
     def process(self, files_dir, class_name, show=False):
+        print(f"Preprocessing {class_name} class")
         for file in tqdm(os.listdir(files_dir)):
             file_path = os.path.join(files_dir, file)
             self._process_video(file_path, class_name, show)
