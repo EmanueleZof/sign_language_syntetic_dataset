@@ -144,7 +144,7 @@ class Preprocessor:
             cv2.destroyAllWindows()
 
     def process(self, files_obj, dataset_subset, show=False):
-        self.OUTPUT_FILE = f"{Utils.OUTPUT_DIR}{dataset_subset}.csv"
+        self.OUTPUT_FILE = f"{Utils.OUTPUT_DIR}{dataset_subset}_keyframes.csv"
         self._scaffold_landmarks()
 
         for obj in files_obj:
