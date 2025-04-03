@@ -143,9 +143,11 @@ class Preprocessor:
             cap.release()
             cv2.destroyAllWindows()
 
-    def process(self, files_obj, class_name, show=False):
-        print(files_obj)
-        
+    def process(self, files_obj, dataset_subset, show=False):
+        self.OUTPUT_FILE = f"{Utils.OUTPUT_DIR}{dataset_subset}.csv"
+
+        self._scaffold_landmarks()
+
         '''
         self.OUTPUT_FILE = f"{Utils.OUTPUT_DIR}{}"
 
