@@ -25,7 +25,6 @@ class Preprocessor:
         self.mp_holistic = mp.solutions.holistic
 
         Utils.create_dir(Utils.OUTPUT_DIR)
-        self._scaffold_landmarks()
     
     def _save_csv_file(self, file_name, write_mode, data):
         with open(file_name, mode=write_mode, newline="") as f:
@@ -144,8 +143,16 @@ class Preprocessor:
             cap.release()
             cv2.destroyAllWindows()
 
-    def process(self, files_dir, class_name, show=False):
+    def process(self, files_obj, class_name, show=False):
+        print(files_obj)
+        
+        '''
+        self.OUTPUT_FILE = f"{Utils.OUTPUT_DIR}{}"
+
+        self._scaffold_landmarks()
+
         print(f"Preprocessing {class_name} class")
         for file in tqdm(os.listdir(files_dir)):
             file_path = os.path.join(files_dir, file)
             self._process_video(file_path, class_name, show)
+        '''
