@@ -145,16 +145,13 @@ class Preprocessor:
 
     def process(self, files_obj, dataset_subset, show=False):
         self.OUTPUT_FILE = f"{Utils.OUTPUT_DIR}{dataset_subset}.csv"
-
         self._scaffold_landmarks()
 
-        '''
-        self.OUTPUT_FILE = f"{Utils.OUTPUT_DIR}{}"
+        for obj in files_obj:
+            class_name = obj["class_name"]
+            file_list = obj["video_list"]
 
-        self._scaffold_landmarks()
+            print(f"Preprocessing {class_name} class")
 
-        print(f"Preprocessing {class_name} class")
-        for file in tqdm(os.listdir(files_dir)):
-            file_path = os.path.join(files_dir, file)
-            self._process_video(file_path, class_name, show)
-        '''
+            for file in tqdm(file_list):
+                self._process_video(file_path, class_name, show)
