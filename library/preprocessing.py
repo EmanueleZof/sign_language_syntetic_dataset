@@ -154,4 +154,4 @@ class Preprocessor:
             print(f"Preprocessing {class_name} class")
 
             for file in tqdm(file_list):
-                self._process_video(file_path, class_name, show)
+                self._process_video(file, class_name, show)
