@@ -39,9 +39,6 @@ class Classifier:
             prediction = model.predict(X_test)
             print(algo, accuracy_score(y_test, prediction))
 
-    def model_predict(self, model, X_test):
-        return model.predict(X_test)
-
     def model_export(self, model):
         _, model_name = model.named_steps.keys()
 
