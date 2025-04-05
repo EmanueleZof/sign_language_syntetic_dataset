@@ -32,7 +32,7 @@ class Classifier:
 
         return fit_models
 
-    def model_evaluate(self, fit_models, X_test,y_test):
+    def model_evaluate(self, fit_models, X_test, y_test):
         for algo, model in fit_models.items():
             prediction = model.predict(X_test)
             print(algo, accuracy_score(y_test, prediction))
