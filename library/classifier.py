@@ -44,3 +44,7 @@ class Classifier:
 
         with open(f"{Utils.OUTPUT_DIR}{model_name}.pkl", "wb") as f:
             pickle.dump(model, f)
+
+    def model_load(self, pkl_file_path):
+        with open(pkl_file_path, "rb") as f:
+            return pickle.load(f)
