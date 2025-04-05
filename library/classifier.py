@@ -10,6 +10,7 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 class Classifier:
     def create_set(self, csv_path):
         df = pd.read_csv(csv_path)
+        df.sample(frac=1)
 
         X = df.drop("class", axis=1)
         y = df["class"]
