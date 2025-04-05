@@ -1,6 +1,8 @@
 import pickle
 import pandas as pd
 
+import library.utils as Utils
+
 from sklearn.metrics import accuracy_score
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
@@ -43,5 +45,5 @@ class Classifier:
     def model_export(self, model):
         _, model_name = model.named_steps.keys()
 
-        with open(f"{model_name}.pkl", "wb") as f:
+        with open(f"{Utils.OUTPUT_DIR}{model_name}.pkl", "wb") as f:
             pickle.dump(model, f)
