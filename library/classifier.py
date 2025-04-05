@@ -8,8 +8,6 @@ from sklearn.linear_model import LogisticRegression, RidgeClassifier
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 
 class Classifier:
-    def __init__(self):
-    
     def create_set(self, csv_path):
         df = pd.read_csv(csv_path)
 
