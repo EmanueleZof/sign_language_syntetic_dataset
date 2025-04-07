@@ -47,7 +47,7 @@ class Video:
     def main(self):
       if (self.loader == "autsl" and self.path != "") :
         self._autsl_loader(self.path, self.data_type, self.classes)
-      else if (self.loader == "demo" and self.path != ""):
+      elif (self.loader == "demo" and self.path != ""):
         self._demo_loader(self.path)
       else :
         print("Nessun loader o path specificato")
