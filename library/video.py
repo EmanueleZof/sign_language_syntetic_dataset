@@ -1,3 +1,4 @@
+import os
 import random
 import pandas as pd
 
@@ -34,9 +35,20 @@ class Video:
                 "video_list": hi_videos
             })
 
+    def _demo_loader(self, main_folder_path):
+      for subdir, dirs, files in os.walk(main_folder_path):
+        if (subdir != main_folder_path):
+          self.dataset.append({
+              "class_name": subdir.replace(main_folder_path, ""),
+              "class_id": 0,
+              "video_list": [f"{subdir}/{file_name}" for file_name in files]
+          })
+
     def main(self):
       if (self.loader == "autsl" and self.path != "") :
         self._autsl_loader(self.path, self.data_type, self.classes)
+      else if (self.loader == "demo" and self.path != ""):
+        self._demo_loader(self.path)
       else :
         print("Nessun loader o path specificato")
 
