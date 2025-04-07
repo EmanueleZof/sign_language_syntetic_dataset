@@ -3,7 +3,8 @@ import pandas as pd
 
 import library.utils as Utils
 
-from sklearn.metrics import accuracy_score
+from matplotlib import pyplot as plt
+from sklearn.metrics import multilabel_confusion_matrix, accuracy_score, ConfusionMatrixDisplay
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression, RidgeClassifier
@@ -41,6 +42,15 @@ class Classifier:
 
     def model_accuracy(self, prediction, y_test):
         return accuracy_score(y_test, prediction)
+
+    def model_confusion_matrices(self, prediction, y_test, dataset):
+        confusion_matrices = multilabel_confusion_matrix(y_test, prediction)
+
+        for index, confusion_matrix in enumerate(confusion_matrices):
+            disp = ConfusionMatrixDisplay(confusion_matrix)
+            disp.plot(include_values=True, cmap='viridis', ax=None, xticks_rotation='vertical')
+            disp.ax_.set_title(dataset[index]["class_name"])
+            plt.show()
 
     def model_export(self, model):
         _, model_name = model.named_steps.keys()
