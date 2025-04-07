@@ -39,7 +39,7 @@ class Video:
       for subdir, dirs, files in os.walk(main_folder_path):
         if (subdir != main_folder_path):
           self.dataset.append({
-              "class_name": subdir.replace(main_folder_path, ""),
+              "class_name": subdir.replace(f"{main_folder_path}/", ""),
               "class_id": 0,
               "video_list": [f"{subdir}/{file_name}" for file_name in files]
           })
