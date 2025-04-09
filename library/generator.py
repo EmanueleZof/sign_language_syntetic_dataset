@@ -20,6 +20,22 @@ from MimicMotion.mimicmotion.utils.utils import save_to_mp4
 from MimicMotion.mimicmotion.dwpose.preprocess import get_video_pose, get_image_pose
 
 class Generator:
+    """
+    Classe per la generazione di video condizionati da immagini di riferimento tramite la pipeline MimicMotion.
+
+    Questa classe si occupa della configurazione, pre-elaborazione, generazione e salvataggio dei video.
+    Supporta la generazione a partire da un video di riferimento e una o più immagini, con mascheramento
+    casuale opzionale dei frame.
+
+    Attributi:
+        output_dir (str): Directory di output dei video generati.
+        temp_dir (str): Directory temporanea per salvataggi intermedi.
+        use_float16 (bool): Se True, imposta la precisione a float16.
+        ASPECT_RATIO (float): Rapporto standard larghezza/altezza per il ridimensionamento.
+        device (torch.device): Dispositivo su cui eseguire il modello (CPU o GPU).
+        default_video (dict): Parametri di default per la generazione video.
+        default_config (dict): Configurazione di default per la pipeline.
+    """
     def __init__(self,
                  output_dir = "outputs/",
                  temp_dir = "temp/",
@@ -52,18 +68,31 @@ class Generator:
         }
 
     def _load_images(self, images_json):
+        """
+        Carica una lista di immagini da un file JSON.
+
+        Parametri:
+            images_json (str): Percorso al file JSON contenente i percorsi o URL delle immagini.
+
+        Ritorna:
+            list: Lista di immagini (es. URL o path).
+        """
         images_file = open(images_json)
         images_list = json.load(images_file)
         return images_list
 
     def _preprocess(self, video_path, image_path, resolution=576, sample_stride=2):
-        """preprocess ref image pose and video pose
+        """
+        Pre-elabora il video e l'immagine di riferimento per estrarre le pose e preparare i dati.
 
-        Args:
-            video_path (str): input video pose path
-            image_path (str): reference image path
-            resolution (int, optional):  Defaults to 576.
-            sample_stride (int, optional): Defaults to 2.
+        Parametri:
+            video_path (str): Percorso del video di riferimento.
+            image_path (str): Percorso dell'immagine di riferimento.
+            resolution (int): Risoluzione di destinazione per il ridimensionamento.
+            sample_stride (int): Intervallo tra i frame campionati del video.
+
+        Ritorna:
+            tuple: Tensore contenente le pose e tensore dell'immagine elaborata.
         """
         image_pixels = pil_loader(image_path)
         image_pixels = pil_to_tensor(image_pixels) # (c, h, w)
@@ -95,6 +124,19 @@ class Generator:
         return torch.from_numpy(pose_pixels.copy()) / 127.5 - 1, torch.from_numpy(image_pixels) / 127.5 - 1
 
     def _run_pipeline(self, pipeline: MimicMotionPipeline, image_pixels, pose_pixels, device, task_config):
+        """
+        Esegue la pipeline MimicMotion per generare i frame del video.
+
+        Parametri:
+            pipeline (MimicMotionPipeline): Pipeline di generazione.
+            image_pixels (Tensor): Immagine di riferimento preprocessata.
+            pose_pixels (Tensor): Pose estratte da immagine e video.
+            device (torch.device): Dispositivo di esecuzione.
+            task_config (OmegaConf): Configurazione del task corrente.
+
+        Ritorna:
+            Tensor: Sequenza di frame generati del video.
+        """
         image_pixels = [to_pil_image(img.to(torch.uint8)) for img in (image_pixels + 1.0) * 127.5]
         generator = torch.Generator(device=device)
         generator.manual_seed(task_config.seed)
@@ -125,6 +167,16 @@ class Generator:
         return _video_frames
 
     def _mask_frames(self, frames, percentage):
+        """
+        Maschera casualmente una percentuale di frame del video con uno sfondo nero.
+
+        Parametri:
+            frames (Tensor): Tensor contenente i frame del video.
+            percentage (int): Percentuale di frame da mascherare.
+
+        Ritorna:
+            Tensor: Frame mascherati.
+        """
         tot_frames = frames.shape[0]
         tot_frames_to_mask = round((int(percentage) * int(tot_frames)) / 100.0)
         mask = torch.zeros((frames.shape[1],frames.shape[2],frames.shape[3]), dtype=torch.uint8)
@@ -141,7 +193,16 @@ class Generator:
                      frames_overlap = 6,
                      video_path = "",
                      images_path = ""):
+        """
+        Costruisce un file di configurazione YAML per la pipeline MimicMotion a partire da input personalizzati.
 
+        Parametri:
+            num_video (int): Numero di video da generare.
+            model (int): Numero di frame da generare per ogni video.
+            frames_overlap (int): Numero di frame sovrapposti tra le tile della pipeline.
+            video_path (str): Percorso del video di riferimento.
+            images_path (str): Percorso al file JSON con le immagini di riferimento.
+        """
         main_config = self.default_config
 
         Utils.create_dir(self.temp_dir)
@@ -174,6 +235,13 @@ class Generator:
 
     @torch.no_grad()
     def generate(self, inference_config="configs/default.yaml", percent_masked_frames=10):
+        """
+        Genera i video eseguendo tutte le fasi: caricamento, preprocessing, inferenza e salvataggio.
+
+        Parametri:
+            inference_config (str): Percorso al file YAML di configurazione per l'inferenza.
+            percent_masked_frames (int): Percentuale di frame casuali da mascherare nel video generato.
+        """
         Utils.create_dir(self.output_dir)
 
         if self.use_float16 :
